@@ -1,0 +1,179 @@
+<!--  가맹점의 결제요청 페이지 -->
+<html>
+
+<head>
+
+    <script src="https://auth.mobilians.co.kr/js/ext/ext_inc_comm.js"></script>
+    <script language="javascript">
+
+        function emulAcceptCharset(form) {
+            if (form.canHaveHTML) {
+                document.charset = form.acceptCharset;
+            }
+            return true;
+        }
+
+        function payRequest() {
+            emulAcceptCharset(document.payForm);
+            //아래와 같이 ext_inc_comm.js에 선언되어 있는 함수를 호출		
+            MCASH_PAYMENT(document.payForm);
+        }
+
+        function resultAttr() {
+            if (document.getElementById("result").value == "Y") {
+                alert("인증되었습니다.");
+                //parent.document.frm.resultStr.value = "인증완료";
+                parent.document.frm.key_ipin_ci.value = document.getElementById("ci1").value;
+                parent.document.frm.key_ipin_di.value = document.getElementById("di").value;
+                parent.document.frm.mobile_check.value = "Y";
+
+                parent.document.frm.name.value = document.getElementById("name").value;
+                parent.document.frm.sex.value = document.getElementById("sex").value;
+                parent.document.frm.birth.value = document.getElementById("birth").value;
+                parent.document.frm.cellNo.value = document.getElementById("cellNo").value;
+
+                parent.MobileAuthSuccess(); // 인증 완료 후 실행되는 함수
+            }
+            else {
+                alert("인증에 실패하였습니다.");
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <form name="payForm" accept-charset='euc-kr'>
+
+        <table border="1" width="100%">
+            <caption>휴대폰본인인증</caption>
+            <tr>
+                <td align="center" colspan="6">
+                    <font size="15pt"><b>휴대폰본인확인 SAMPLE PAGE</b>
+                </td>
+            </tr>
+
+            <tr>
+                <td align="center">대표결제수단</td>
+                <td align="center">CASH_GB</td>
+                <td><input type="text" name="CASH_GB" id="CASH_GB" value="CI"></td>
+                <td align="center">서비스아이디</td>
+                <td align="center">CI_SVCID</td>
+                <td><input type="text" name="CI_SVCID" id="CI_SVCID" value="160624022320"></td>
+            </tr>
+
+            <tr>
+                <td align="center">암호화사용여부</td>
+                <td align="center">Cryptyn</td>
+                <td><input type="text" name="Cryptyn" id="Cryptyn" value="Y"></td>
+                <td align="center">암호화Key구분</td>
+                <td align="center">Keygb</td>
+                <td><input type="text" name="Keygb" id="Keygb" value="0"></td>
+            </tr>
+
+            <tr>
+                <td align="center">결제창 호출방식</td>
+                <td align="center">CALL_TYPE</td>
+                <td><input type="text" name="CALL_TYPE" id="CALL_TYPE" value=""></td>
+                <td align="center">가맹점 로고 사용여부</td>
+                <td align="center">LOGO_YN</td>
+                <td><input type="text" name="LOGO_YN" id="LOGO_YN" value="N"></td>
+            </tr>
+
+            <tr>
+                <td align="center">결제단계구분</td>
+                <td align="center">CI_Mode</td>
+                <td><input type="text" name="CI_Mode" id="CI_Mode" value="61"></td>
+                <td align="center">DI웹사이트코드</td>
+                <td align="center">DI_CODE</td>
+                <td><input type="text" name="DI_CODE" id="DI_CODE" value=""></td>
+            </tr>
+            <tr>
+                <td align="center">가맹점도메인</td>
+                <td align="center">Siteurl</td>
+                <td><input type="text" name="Siteurl" id="Siteurl" value="www.mrpizza.co.kr"></td>
+                <td align="center">SUB대행사식별</td>
+                <td align="center">SUB_CPID</td>
+                <td><input type="text" name="SUB_CPID" id="SUB_CPID" value=""></td>
+            </tr>
+            <tr>
+                <td align="center">발신번호</td>
+                <td align="center">Callback</td>
+                <td><input type="text" name="Callback" id="Callback" size="30" value=""></td>
+                <td align="center">SMS문구</td>
+                <td align="center">Smstext</td>
+                <td><input type="text" name="Smstext" id="Smstext" size="30" value=""></td>
+            </tr>
+            <tr>
+                <td align="center">LMS제목</td>
+                <td align="center">Lmstitle</td>
+                <td><input type="text" name="Lmstitle" id="Lmstitle" size="40" value=""></td>
+                <td align="center">LMS본문</td>
+                <td align="center">Lmstext</td>
+                <td><textarea name="Lmstext" id="Lmstext" rows="6" value=""></textarea></td>
+            </tr>
+            <tr>
+                <td align="center">가맹점거래번호</td>
+                <td align="center">Tradeid</td>
+                <td><input type="text" name="Tradeid" id="Tradeid" size="30" value="20211219211411472268"></td>
+                <td align="center">거래종류</td>
+                <td align="center">PAY_MODE</td>
+                <td>
+                    <select name="PAY_MODE">
+                        <option value="10">실서버(10)</option>
+                        <option value="00">테스트(00)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">성공URL</td>
+                <td align="center">*Okurl</td>
+                <td><input type="text" name="Okurl" id="Okurl" size="30" value="https://httpbin.org/post"></td>
+                <td align="center">Okurl암호화</td>
+                <td align="center">Cryptokurl</td>
+                <td>
+                    <select name="Cryptokurl" id="Cryptokurl">
+                        <option value="Y">사용</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="center">이통사고정</td>
+                <td align="center">CI_FIXCOMMID</td>
+                <td>
+                    <select name="CI_FIXCOMMID" id="CI_FIXCOMMID">
+                        <option value="">사용안함</option>
+                        <option value="SKT">SKT</option>
+                        <option value="KTF">KTF</option>
+                        <option value="LGT">LGT</option>
+                        <option value="SKR">SKT알뜰폰</option>
+                    </select>
+                </td>
+                <td align="center">Closeurl</td>
+                <td align="center">Closeurl</td>
+                <td><input type="text" name="Closeurl" id="Closeurl" size="30" value=""></td>
+            </tr>
+
+            <tr>
+                <td align="center" colspan="6"> </td>
+            </tr>
+
+
+            <tr>
+                <td align="center" colspan="6"><input type="button" value="인증하기" onclick="payRequest()"></td>
+            </tr>
+        </table>
+    </form>
+    <form name="form_result">
+        <input type="hidden" name="di" id="di" value="" />
+        <input type="hidden" name="ci1" id="ci1" value="" />
+        <input type="hidden" name="name" id="name" value="" />
+        <input type="hidden" name="sex" id="sex" value="" />
+        <input type="hidden" name="birth" id="birth" value="" />
+        <input type="hidden" name="cellNo" id="cellNo" value="" />
+        <input type="hidden" name="result" id="result" value="" />
+    </form>
+</body>
+
+</html>
